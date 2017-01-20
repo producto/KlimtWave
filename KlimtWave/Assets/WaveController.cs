@@ -40,7 +40,7 @@ public class WaveController : MonoBehaviour
 	    }*/
 
         HandleInput();
-    }
+	}
 
 
 
