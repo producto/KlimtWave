@@ -48,7 +48,7 @@ public class WaveController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            waveColumns[0].GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1000F));
+            waveColumns[0].GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2000F));
         }
     }
 }
