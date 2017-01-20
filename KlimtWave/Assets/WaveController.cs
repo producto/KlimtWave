@@ -20,7 +20,7 @@ public class WaveController : MonoBehaviour
         for (int i = 0; i < 15; i++)
         {
             var newWave = GameObject.Instantiate(WaveColumnPrefab, startPosition, startRotation);
-            //if (i == 0) newWave.GetComponent<Rigidbody2D>().isKinematic = true;
+            //if (i == 0) newWave.GetComponent<Rigidbody2D>().isKinematic = false;
             if (i != 0)
             {
                 newWave.GetComponent<SpringJoint2D>().connectedBody = waveColumns[i - 1].GetComponent<Rigidbody2D>();
@@ -48,7 +48,7 @@ public class WaveController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            waveColumns[0].GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2000F));
+            waveColumns[0].GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10000F));
         }
     }
 }
