@@ -9,9 +9,16 @@ public class WaveController : MonoBehaviour
 	public GameObject WaveColumnPrefab;
 	private List<GameObject> waveColumns = new List<GameObject> ();
 
-	// Use this for initialization
-	void Start ()
-	{
+    public GameObject Cat;
+    private Animator catAnimator;
+    private Rigidbody2D catRigidbody2D;
+
+    // Use this for initialization
+    void Start ()
+    {
+        catAnimator = Cat.GetComponent<Animator>();
+        catRigidbody2D = Cat.GetComponent<Rigidbody2D>();
+
 		var startPosition = Waves.transform.position;
 		startPosition.x -= 960F;
 		startPosition.y -= 1350F;
@@ -48,8 +55,11 @@ public class WaveController : MonoBehaviour
 
 	private void HandleInput ()
 	{
-		if (Input.GetKey (KeyCode.Space)) {
+	    if (Input.GetKey (KeyCode.Space)) {
 			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 		}
+        
+        Debug.Log("Cat velocity: " + catRigidbody2D.velocity);
+	    catAnimator.SetInteger("CatAnimationState", catRigidbody2D.velocity.y > 0 ? 0 : 1);
 	}
 }
