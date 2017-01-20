@@ -59,7 +59,7 @@ public class WaveController : MonoBehaviour
 			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 		}
         
-        Debug.Log("Cat velocity: " + catRigidbody2D.velocity);
-	    catAnimator.SetInteger("CatAnimationState", catRigidbody2D.velocity.y > 0 ? 0 : 1);
+        //Debug.Log("Cat velocity: " + catRigidbody2D.velocity);
+	    catAnimator.SetInteger("CatAnimationState", catRigidbody2D.velocity.y > -200 ? 0 : 1);
 	}
 }
