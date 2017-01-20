@@ -19,9 +19,9 @@ public class WaveController : MonoBehaviour
 
 		for (int i = 0; i < 15; i++) {
 			var newWave = GameObject.Instantiate (WaveColumnPrefab, startPosition, startRotation);
-			if (i != 0) {
-				newWave.GetComponent<SpringJoint2D> ().connectedBody = waveColumns [i - 1].GetComponent<Rigidbody2D> ();
-			}
+//			if (i != 0) {
+//				newWave.GetComponent<SpringJoint2D> ().connectedBody = waveColumns [i - 1].GetComponent<Rigidbody2D> ();
+//			}
 			waveColumns.Add (newWave);
 
 			startPosition.x += 128F;
@@ -30,25 +30,24 @@ public class WaveController : MonoBehaviour
 		waveColumns [0].GetComponent<SpringJoint2D> ().connectedAnchor = new Vector2 (0, -1080 - 540 / 2);
 		waveColumns [0].GetComponent<SpringJoint2D> ().distance = 500;
 	}
-	
-	// Update is called once per frame
+
 	void FixedUpdate ()
 	{
-		// Animate...EVERYTHING
-		/*foreach (var waveColumn in waveColumns)
-	    {
-	        
-	    }*/
-
 		HandleInput ();
+		UpdateWaves ();
 	}
 
-
+	private void UpdateWaves ()
+	{
+		for (int i = waveColumns.Count - 1; i > 0; i--) {
+			waveColumns [i].GetComponent<Rigidbody2D> ().position = waveColumns [i - 1].GetComponent<Rigidbody2D> ().position;
+		}
+	}
 
 	private void HandleInput ()
 	{
 		if (Input.GetKey (KeyCode.Space)) {
-			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 3000F));
+			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 1000F));
 		}
 	}
 }
