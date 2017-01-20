@@ -40,14 +40,16 @@ public class WaveController : MonoBehaviour
 	private void UpdateWaves ()
 	{
 		for (int i = waveColumns.Count - 1; i > 0; i--) {
-			waveColumns [i].GetComponent<Rigidbody2D> ().position = waveColumns [i - 1].GetComponent<Rigidbody2D> ().position;
+			waveColumns[i].transform.position = new Vector3(waveColumns[i].transform.position.x,
+                                                            waveColumns[i - 1].transform.position.y,
+                                                            waveColumns[i].transform.position.z);
 		}
 	}
 
 	private void HandleInput ()
 	{
 		if (Input.GetKey (KeyCode.Space)) {
-			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 1000F));
+			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 		}
 	}
 }
