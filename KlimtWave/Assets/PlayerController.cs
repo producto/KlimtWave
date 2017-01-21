@@ -4,9 +4,12 @@
 using System.Collections.Generic;
 ﻿using System.Linq;
 ﻿using UnityEngine;
+﻿using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public Text ScoreText;
+
     private AudioSource[] audioSources;
     private Rigidbody2D rigidBody;
 
@@ -14,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private AudioSource meowDistressAudio;
     private AudioSource bigSplashAudio;
     private AudioSource waveAudio;
+
+    private int score;
 
 	// Use this for initialization
 	void Start ()
@@ -25,6 +30,8 @@ public class PlayerController : MonoBehaviour
         meowDistressAudio = audioSources.First(a => a.name == "Dying");
         bigSplashAudio = audioSources.First(a => a.name == "BigSplash");
         waveAudio = audioSources.First(a => a.name == "Wave");
+
+	    score = 0;
     }
 	
 	// Update is called once per frame
@@ -74,5 +81,12 @@ public class PlayerController : MonoBehaviour
         Debug.Log(particleSystem != null);
 
         particleSystem.gameObject.SetActive(true);
+    }
+
+    public void IncreaseScore()
+    {
+        Debug.Log("IncreaseScore");
+        score += 1;
+        ScoreText.text = score.ToString();
     }
 }

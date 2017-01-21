@@ -24,6 +24,7 @@ public class Obstacle : MonoBehaviour {
         {
             Debug.Log("hit player");
             obstacleAnimator.SetInteger("FishAnimationState", 1);
+            collider.gameObject.SendMessage("IncreaseScore");
         }
         /*if (collider.gameObject.tag == "Player")
         {
