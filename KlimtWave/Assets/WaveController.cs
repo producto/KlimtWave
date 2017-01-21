@@ -7,9 +7,12 @@ public class WaveController : MonoBehaviour
 	public GameObject Waves;
 	public GameObject WaveColumnPrefab;
 	public Camera camera;
+
 	private List<GameObject> waveColumns = new List<GameObject> ();
+	private float waveColumnWidth;
 
 	private float mousePos;
+
 	public GameObject Cat;
 	private Animator catAnimator;
 	private Rigidbody2D catRigidbody2D;
@@ -17,6 +20,7 @@ public class WaveController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		waveColumnWidth = WaveColumnPrefab.GetComponent<Renderer> ().bounds.size.x;
 		mousePos = 0F;
 
 		catAnimator = Cat.GetComponent<Animator> ();
@@ -27,16 +31,15 @@ public class WaveController : MonoBehaviour
 		startPosition.y -= 1350F;
 		var startRotation = Waves.transform.rotation;
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < Mathf.Ceil (camera.pixelWidth / waveColumnWidth) + 1; i++) {
 			var newWave = GameObject.Instantiate (WaveColumnPrefab, startPosition, startRotation);
-
 
 //			if (i != 0) {
 //				newWave.GetComponent<SpringJoint2D> ().connectedBody = waveColumns [i - 1].GetComponent<Rigidbody2D> ();
 //			}
 			waveColumns.Add (newWave);
 
-			startPosition.x += 128F;
+			startPosition.x += waveColumnWidth;
 		}
 
 //		waveColumns [0].GetComponent<SpringJoint2D> ().connectedAnchor = new Vector2 (0, -1080 - 540 / 2);
@@ -62,7 +65,7 @@ public class WaveController : MonoBehaviour
 			}
 			waveColumns [waveColumns.Count - 1] = first;
 			waveColumns [waveColumns.Count - 1].transform.position = waveColumns [waveColumns.Count - 2].transform.position;
-			waveColumns [waveColumns.Count - 1].transform.Translate (new Vector3 (128F, 0, 0));
+			waveColumns [waveColumns.Count - 1].transform.Translate (new Vector3 (waveColumnWidth, 0, 0));
 		}
 
 		// Update all columns
