@@ -29,7 +29,7 @@ public class BackgroundLayer {
 	public void update(){
 
 		for (int i = 0; i < 2; i++) {
-			images [i].transform.Translate (new Vector3 (camera.velocity.x * speed * Time.fixedDeltaTime, 0, 0));
+			images [i].transform.position.Set(camera.transform.position.x * speed, 0, 0);
 		}
 
 
@@ -56,18 +56,21 @@ public class BackgroundController : MonoBehaviour {
 	public GameObject clouds; 
 	public GameObject trees;
 	public GameObject land; 
+	public GameObject mountain;
 
 	private BackgroundLayer cloudLayer;
 	private BackgroundLayer treeslayer;
 	private BackgroundLayer grasslayer;
+	private BackgroundLayer mountainLayer;
 
 	// Use this for initialization
 	void Start () {
 
 		//lower is "closer"
-		this.cloudLayer = new BackgroundLayer (0.8F, camera, clouds);
-		this.treeslayer = new BackgroundLayer (0.5F, camera, trees);
-		this.grasslayer = new BackgroundLayer (0.5F, camera, land);
+		this.cloudLayer = new BackgroundLayer (0.01F, camera, clouds);
+		this.treeslayer = new BackgroundLayer (0.1F, camera, trees);
+		this.grasslayer = new BackgroundLayer (0.1F, camera, land);
+		this.mountainLayer = new BackgroundLayer (0.05F, camera, mountain);
 	}
 	
 	// Update is called once per frame
