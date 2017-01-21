@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class WaveController : MonoBehaviour
@@ -10,11 +9,18 @@ public class WaveController : MonoBehaviour
 	private List<GameObject> waveColumns = new List<GameObject> ();
 
 	private float mousePos;
+    public GameObject Cat;
+    private Animator catAnimator;
+    private Rigidbody2D catRigidbody2D;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
 	{
 		mousePos = 0F;
+
+        catAnimator = Cat.GetComponent<Animator>();
+        catRigidbody2D = Cat.GetComponent<Rigidbody2D>();
+
 		var startPosition = Waves.transform.position;
 		startPosition.x -= 960F;
 		startPosition.y -= 1350F;
@@ -22,6 +28,8 @@ public class WaveController : MonoBehaviour
 
 		for (int i = 0; i < 15; i++) {
 			var newWave = GameObject.Instantiate (WaveColumnPrefab, startPosition, startRotation);
+
+
 //			if (i != 0) {
 //				newWave.GetComponent<SpringJoint2D> ().connectedBody = waveColumns [i - 1].GetComponent<Rigidbody2D> ();
 //			}
@@ -38,7 +46,10 @@ public class WaveController : MonoBehaviour
 	{
 		HandleInput ();
 		UpdateWaves ();
-	}
+
+        //Debug.Log("Cat velocity: " + catRigidbody2D.velocity);
+        catAnimator.SetInteger("CatAnimationState", catRigidbody2D.velocity.y > -200 ? 0 : 1);
+    }
 
 	private void UpdateWaves ()
 	{
@@ -73,7 +84,7 @@ public class WaveController : MonoBehaviour
 
 	private void HandleInput ()
 	{
-		
+
 //		if (Input.GetKey (KeyCode.Space)) {
 //			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 //		}
@@ -81,5 +92,11 @@ public class WaveController : MonoBehaviour
 
 		mousePos = Input.GetAxis("Mouse Y");
 
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Debug.Log("Quitting game. Buh-BYE!!");
+            Application.Quit();
+	    }
 	}
 }
