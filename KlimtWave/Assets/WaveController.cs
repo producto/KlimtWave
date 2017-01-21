@@ -77,16 +77,16 @@ public class WaveController : MonoBehaviour
 
 	private void CalculateForceVector (int i)
 	{
-		var balancingConstant = 800F;
-		var dampingConstant = -1800F;
+		var balancingConstant = 1200F;
+		var dampingConstant = -1900F;
 		var balanceY = -1350F;
-		var transmittanceConstant = 32000F;
+		var transmittanceConstant = 30000F;
 		var controlConstant = 4000000F; 
 		var previousPos = balanceY;
 
 		if (i > 0) {
 			previousPos = waveColumns [i - 1].GetComponent<Rigidbody2D> ().position.y;
-			controlConstant = controlConstant / (i + 1);
+			controlConstant = 0;
 		} else {
 			transmittanceConstant = 0;
 		}
