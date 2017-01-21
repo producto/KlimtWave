@@ -10,11 +10,12 @@ public class ObstaclesController : MonoBehaviour
 
 	private readonly List<GameObject> obstacles = new List<GameObject> ();
 
-	private int obstaclesSpawned;
+    [HideInInspector]
+	public int ObstaclesSpawned;
 
 	void Start ()
 	{
-		obstaclesSpawned = 0;
+		ObstaclesSpawned = 0;
 	}
 
 	void FixedUpdate ()
@@ -36,13 +37,13 @@ public class ObstaclesController : MonoBehaviour
 
 	void PossiblySpawnNewObstacles ()
 	{
-		var needForNewObstacle = camera.transform.position.x / camera.pixelWidth - obstaclesSpawned / avgAmountOnScreen;
+		var needForNewObstacle = camera.transform.position.x / camera.pixelWidth - ObstaclesSpawned / avgAmountOnScreen;
 		var deviation = Random.value - 0.5F;
 
 //		Debug.Log ("need: " + needForNewObstacle
 //		+ ", deviatedNeed = " + (needForNewObstacle + deviation)
 //		+ ", pos/w = " + camera.transform.position.x / camera.pixelWidth
-//		+ ", spawned/avg = " + obstaclesSpawned / avgAmountOnScreen);
+//		+ ", spawned/avg = " + ObstaclesSpawned / avgAmountOnScreen);
 
 		if (Random.value < needForNewObstacle + deviation) {
 			SpawnNewObstacle ();
@@ -56,6 +57,6 @@ public class ObstaclesController : MonoBehaviour
 		newObstacle.transform.position.Set (0, 0, 0);
 		newObstacle.transform.position = camera.ViewportToWorldPoint (new Vector3 (1, randomY, 10));
 		obstacles.Add (newObstacle);
-		obstaclesSpawned++;
+		ObstaclesSpawned++;
 	}
 }

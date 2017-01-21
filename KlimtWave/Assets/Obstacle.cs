@@ -6,6 +6,7 @@ public class Obstacle : MonoBehaviour {
 
     private GameObject player;
     private Animator obstacleAnimator;
+    private ObstaclesController controller;
 
     private bool isEvil;
 
@@ -14,7 +15,11 @@ public class Obstacle : MonoBehaviour {
         player = GameObject.FindGameObjectsWithTag("Player")[0];
         obstacleAnimator = GetComponent<Animator>();
 
-        if (UnityEngine.Random.Range(0f, 1f) > 0.8f)
+        controller = GameObject.FindObjectOfType<ObstaclesController>();
+        Debug.Log("Obstacles Spawned: " + controller.ObstaclesSpawned);
+
+        var chance = controller.ObstaclesSpawned/100f < 0.7f ? controller.ObstaclesSpawned/100f : 0.7f;
+        if (UnityEngine.Random.Range(0f, 1f) < chance)
         {
             isEvil = true;
             var sprite = GetComponent<SpriteRenderer>();
