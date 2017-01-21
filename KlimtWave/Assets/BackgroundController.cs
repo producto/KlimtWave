@@ -70,7 +70,7 @@ public class BackgroundController : MonoBehaviour {
 		this.cloudLayer = new BackgroundLayer (0.01F, camera, clouds);
 		this.treeslayer = new BackgroundLayer (0.1F, camera, trees);
 		this.grasslayer = new BackgroundLayer (0.1F, camera, land);
-		this.mountainLayer = new BackgroundLayer (0.05F, camera, mountain);
+		//this.mountainLayer = new BackgroundLayer (0.05F, camera, mountain);
 	}
 	
 	// Update is called once per frame
