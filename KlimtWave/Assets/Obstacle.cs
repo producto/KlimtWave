@@ -35,12 +35,7 @@ public class Obstacle : MonoBehaviour {
         {
             Debug.Log("hit player");
             obstacleAnimator.SetInteger("FishAnimationState", 1);
-            collider.gameObject.SendMessage("IncreaseScore");
-            if (isEvil) collider.gameObject.SendMessage("Death");
+            collider.gameObject.SendMessage(isEvil ? "Death" : "IncreaseScore");
         }
-        /*if (collider.gameObject.tag == "Player")
-        {
-            collider.gameObject.SendMessage("Death");
-        }*/
     }
 }
