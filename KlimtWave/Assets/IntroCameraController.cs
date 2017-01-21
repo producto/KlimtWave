@@ -11,7 +11,8 @@ public class IntroCameraController : MonoBehaviour
 
     private SpriteRenderer catSprite;
 
-    private bool finishedAnimatingCamera;
+    [HideInInspector]
+    public bool FinishedAnimatingCamera;
     private bool finishedFadingInElements;
 
     private AudioSource[] audioSources;
@@ -36,7 +37,7 @@ public class IntroCameraController : MonoBehaviour
 	    if (finishedFadingInElements) return;
 
         // If camera is finished zooming out, fade in the other elements
-        if (finishedAnimatingCamera)
+        if (FinishedAnimatingCamera)
         {
             var pressEnterColor = PressEnterText.color;
             if (PressEnterText.color.a < 0.99F)
@@ -61,7 +62,7 @@ public class IntroCameraController : MonoBehaviour
             else
             {
                 Camera.main.orthographicSize = 5F;
-                finishedAnimatingCamera = true;
+                FinishedAnimatingCamera = true;
                 purrAudio.Play();
             }
         }

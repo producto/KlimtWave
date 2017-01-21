@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 ﻿using System.Linq;
 ﻿using UnityEngine;
+﻿using UnityEngine.SceneManagement;
 ﻿using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource fishCollect;
 
     private int score;
+    private bool isEndSequence;
 
 	// Use this for initialization
 	void Start ()
@@ -38,12 +40,18 @@ public class PlayerController : MonoBehaviour
 
         score = 0;
 	    scoreAnimation = ScoreText.GetComponent<Animation>();
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02F;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter) || Input.GetMouseButton(0))
+        {
+            SceneManager.LoadScene("WaveTest");
+        }
+    }
 
 	void FixedUpdate(){
 		//GetComponent<Rigidbody2D> ().AddForce (new Vector2 (1000F, 0));
@@ -87,6 +95,7 @@ public class PlayerController : MonoBehaviour
         Time.fixedDeltaTime = 0.02F * Time.timeScale;
 
         Camera.main.orthographicSize = 400;
+        isEndSequence = true;
     }
 
     public void IncreaseScore()
