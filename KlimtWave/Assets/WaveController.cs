@@ -129,6 +129,5 @@ public class WaveController : MonoBehaviour
 
 		Cat.GetComponent<Rigidbody2D> ().AddForce (new Vector2((diff * slopeForce), 0));
 
-		Debug.Log ("Player Collide with index:"+cindex);
 	}
 }

@@ -96,7 +96,8 @@ public class AmbientLayer
 		}
 
 
-		if (camera.WorldToScreenPoint(images[this.rearMostIndex].transform.position).x < -spacing) {
+		if (camera.WorldToScreenPoint(images[this.rearMostIndex].transform.position).x < 0 - spacing) {
+			
 			placeNext ();
 		}
 
@@ -104,15 +105,21 @@ public class AmbientLayer
 
 	public void placeNext(){
 
-		var foremostIndex = (rearMostIndex - 1) % images.Length;
+		var foremostIndex = (rearMostIndex - 1);
+
+		if(foremostIndex < 0){
+			foremostIndex = images.Length -1;
+		}
+
+
 		var rear = images [rearMostIndex];
 		var fore = images [foremostIndex];
 		var advance = spacing * (1 + randomspace * Random.value);
-
-		rear.transform.position.Set (fore.transform.position.x + advance, rear.transform.position.y , 0);
+		Debug.Log ("moving ambient obstacle by:" + advance);
+		rear.transform.Translate (new Vector3((fore.transform.position.x - rear.transform.position.x)+ advance, rear.transform.position.y , 0));
 		//rear.transform.localScale.Set (1, 1, 1);
 
-		this.rearMostIndex++;
+		this.rearMostIndex = (this.rearMostIndex + 1) % this.images.Length;
 
 	}
 
@@ -123,12 +130,11 @@ public class BackgroundController : MonoBehaviour
 
 	public Camera camera;
 	public GameObject clouds;
-	public GameObject trees;
 	public GameObject land;
-	public GameObject mountain;
+
 
 	private BackgroundLayer cloudLayer;
-	private BackgroundLayer treeslayer;
+	private AmbientLayer treeslayer;
 	private BackgroundLayer grasslayer;
 	private AmbientLayer mountainLayer;
 
@@ -138,10 +144,10 @@ public class BackgroundController : MonoBehaviour
 
 		//lower is "closer"
 		this.cloudLayer = new BackgroundLayer (0.5F, camera, clouds);
-		this.treeslayer = new BackgroundLayer (0.1F, camera, trees);
-		this.grasslayer = new BackgroundLayer (0.1F, camera, land);
+		this.grasslayer = new BackgroundLayer (0.3F, camera, land);
 
-		this.mountainLayer = new AmbientLayer (0.05F, camera, "mountain", 700f, 0.5f);
+		this.treeslayer = new AmbientLayer (0.3F, camera, "Trees", 1000f, 1f);
+		this.mountainLayer = new AmbientLayer (0.4F, camera, "Mountain", 700f, 1f);
 	}
 
 	// Update is called once per frame

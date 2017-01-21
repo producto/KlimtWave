@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D collision) {
 
 		if (collision.collider.gameObject.tag == "Wave Particle") {
-			Debug.Log ("collision with wave");
 			var waves = GameObject.FindGameObjectWithTag ("Wave Control");
 			waves.SendMessage ("CollidePlayer",collision.collider.gameObject);
 
