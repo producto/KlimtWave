@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ public class IntroCameraController : MonoBehaviour
     private bool finishedAnimatingCamera;
     private bool finishedFadingInElements;
 
+    private AudioSource[] audioSources;
+    private AudioSource purrAudio;
+
     // Use this for initialization
     void Start ()
 	{
@@ -20,7 +24,11 @@ public class IntroCameraController : MonoBehaviour
         Camera.main.orthographicSize = 0F;
 
         catSprite = Cat.GetComponent<SpriteRenderer>();
-	}
+
+        audioSources = GameObject.FindObjectsOfType<AudioSource>();
+
+        purrAudio = audioSources.First(a => a.name == "CatPurrAudio");
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -54,6 +62,7 @@ public class IntroCameraController : MonoBehaviour
             {
                 Camera.main.orthographicSize = 5F;
                 finishedAnimatingCamera = true;
+                purrAudio.Play();
             }
         }
     }
