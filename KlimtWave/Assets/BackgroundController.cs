@@ -74,8 +74,8 @@ public class BackgroundController : MonoBehaviour {
 	void Update () {
 		//update layer transforms
 		cloudLayer.update();
-		treeslayer.update ();
-		grasslayer.update ();
+		treeslayer.update();
+		grasslayer.update();
 
 		//spawn new images
 

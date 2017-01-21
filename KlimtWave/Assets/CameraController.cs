@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
-	
+public class CameraController : MonoBehaviour
+{
+    public GameObject Cat;
 
 	// Use this for initialization
 	void Start () {
-		GameObject.FindGameObjectWithTag ("cat");	
 	}
 	
 	// Update is called once per frame
