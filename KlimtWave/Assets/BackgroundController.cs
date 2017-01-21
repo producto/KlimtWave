@@ -33,7 +33,7 @@ public class BackgroundLayer
 	{
 
 		for (int i = 0; i < 2; i++) {
-			images [i].transform.position.Set(camera.transform.position.x * speed, 0, 0);
+			images [i].transform.Translate (speed * camera.velocity * Time.fixedDeltaTime);
 		}
 
 
@@ -74,7 +74,7 @@ public class BackgroundController : MonoBehaviour
 	{
 
 		//lower is "closer"
-		this.cloudLayer = new BackgroundLayer (0.01F, camera, clouds);
+		this.cloudLayer = new BackgroundLayer (0.5F, camera, clouds);
 		this.treeslayer = new BackgroundLayer (0.1F, camera, trees);
 		this.grasslayer = new BackgroundLayer (0.1F, camera, land);
 		//this.mountainLayer = new BackgroundLayer (0.05F, camera, mountain);
