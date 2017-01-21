@@ -114,4 +114,8 @@ public class WaveController : MonoBehaviour
 			Application.Quit ();
 		}
 	}
+
+	private void CollidePlayer(){
+		Debug.Log ("Player Collide");
+	}
 }
