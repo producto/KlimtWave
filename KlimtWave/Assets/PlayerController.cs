@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource meowAudio;
     private AudioSource meowDistressAudio;
+    private AudioSource meowDeadAudio;
     private AudioSource bigSplashAudio;
     private AudioSource waveAudio;
     private AudioSource fishCollect;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
         meowAudio = audioSources.First(a => a.name == "Meow");
         meowDistressAudio = audioSources.First(a => a.name == "Dying");
+        meowDeadAudio = audioSources.First(a => a.name == "Dead");
         bigSplashAudio = audioSources.First(a => a.name == "BigSplash");
         waveAudio = audioSources.First(a => a.name == "Wave");
         fishCollect = audioSources.First(a => a.name == "FishCollect");
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Died");
         GetComponent<CircleCollider2D>().enabled = false;
+        meowDeadAudio.Play();
 
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = 0.02F * Time.timeScale;
