@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class IntroCameraController : MonoBehaviour
 {
-    public Image Cat;
+    public GameObject Cat;
     public Image PressEnterText;
+
+    private SpriteRenderer catSprite;
 
     private bool finishedAnimatingCamera;
     private bool finishedFadingInElements;
@@ -16,6 +18,8 @@ public class IntroCameraController : MonoBehaviour
 	{
         Debug.Log(Camera.main.orthographicSize);
         Camera.main.orthographicSize = 0F;
+
+        catSprite = Cat.GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -30,6 +34,8 @@ public class IntroCameraController : MonoBehaviour
             if (PressEnterText.color.a < 0.99F)
             {
                 PressEnterText.color = new Color(pressEnterColor.r, pressEnterColor.g, 
+                                                 pressEnterColor.b, pressEnterColor.a + 0.01F);
+                catSprite.color = new Color(pressEnterColor.r, pressEnterColor.g,
                                                  pressEnterColor.b, pressEnterColor.a + 0.01F);
             }
             else
