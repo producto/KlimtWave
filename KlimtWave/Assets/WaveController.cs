@@ -115,7 +115,20 @@ public class WaveController : MonoBehaviour
 		}
 	}
 
-	private void CollidePlayer(){
-		Debug.Log ("Player Collide");
+	private void CollidePlayer(GameObject collidedWave){
+		
+		var cindex = waveColumns.FindIndex (item => item.GetInstanceID() == collidedWave.GetInstanceID());
+
+		var left = waveColumns[Mathf.Max(cindex-1,0)].transform.position.y;
+		var mid = waveColumns[cindex].transform.position.y; 
+		var right = waveColumns[Mathf.Min(cindex+1,waveColumns.Count-1)].transform.position.y; 
+
+		var diff = (right - mid) + (mid - left); // positive is upslope
+			
+		var slopeForce = -35000;
+
+		Cat.GetComponent<Rigidbody2D> ().AddForce (new Vector2((diff * slopeForce), 0));
+
+		Debug.Log ("Player Collide with index:"+cindex);
 	}
 }

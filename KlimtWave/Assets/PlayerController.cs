@@ -1,3 +1,4 @@
+
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour {
 		if (collision.collider.gameObject.tag == "Wave Particle") {
 			Debug.Log ("collision with wave");
 			var waves = GameObject.FindGameObjectWithTag ("Wave Control");
-			waves.SendMessage ("CollidePlayer");
+			waves.SendMessage ("CollidePlayer",collision.collider.gameObject);
 		}
 	}
 
