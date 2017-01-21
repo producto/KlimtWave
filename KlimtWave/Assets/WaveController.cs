@@ -41,7 +41,10 @@ public class WaveController : MonoBehaviour
 	{
 		HandleInput ();
 		UpdateWaves ();
-	}
+
+        //Debug.Log("Cat velocity: " + catRigidbody2D.velocity);
+        catAnimator.SetInteger("CatAnimationState", catRigidbody2D.velocity.y > -200 ? 0 : 1);
+    }
 
 	private void UpdateWaves ()
 	{
@@ -57,8 +60,5 @@ public class WaveController : MonoBehaviour
 	    if (Input.GetKey (KeyCode.Space)) {
 			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 		}
-        
-        //Debug.Log("Cat velocity: " + catRigidbody2D.velocity);
-	    catAnimator.SetInteger("CatAnimationState", catRigidbody2D.velocity.y > -200 ? 0 : 1);
 	}
 }
