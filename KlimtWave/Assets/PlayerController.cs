@@ -80,11 +80,6 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Died");
         GetComponent<CircleCollider2D>().enabled = false;
-
-        var particleSystem = transform.FindChild("Blood");
-        Debug.Log(particleSystem != null);
-
-        particleSystem.gameObject.SetActive(true);
     }
 
     public void IncreaseScore()
