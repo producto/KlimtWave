@@ -80,6 +80,11 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Died");
         GetComponent<CircleCollider2D>().enabled = false;
+
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02F * Time.timeScale;
+
+        Camera.main.orthographicSize = 400;
     }
 
     public void IncreaseScore()
