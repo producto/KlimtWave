@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour
 {
     public Text ScoreText;
+    private Animation scoreAnimation;
 
     private AudioSource[] audioSources;
     private Rigidbody2D rigidBody;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource meowDistressAudio;
     private AudioSource bigSplashAudio;
     private AudioSource waveAudio;
+    private AudioSource fishCollect;
 
     private int score;
 
@@ -30,8 +32,10 @@ public class PlayerController : MonoBehaviour
         meowDistressAudio = audioSources.First(a => a.name == "Dying");
         bigSplashAudio = audioSources.First(a => a.name == "BigSplash");
         waveAudio = audioSources.First(a => a.name == "Wave");
+        fishCollect = audioSources.First(a => a.name == "FishCollect");
 
-	    score = 0;
+        score = 0;
+	    scoreAnimation = ScoreText.GetComponent<Animation>();
     }
 	
 	// Update is called once per frame
@@ -86,6 +90,8 @@ public class PlayerController : MonoBehaviour
     public void IncreaseScore()
     {
         Debug.Log("IncreaseScore");
+        fishCollect.Play();
+        scoreAnimation.Play();
         score += 1;
         ScoreText.text = score.ToString();
     }
