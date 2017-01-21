@@ -60,5 +60,11 @@ public class WaveController : MonoBehaviour
 	    if (Input.GetKey (KeyCode.Space)) {
 			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 		}
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Debug.Log("Quitting game. Buh-BYE!!");
+            Application.Quit();
+	    }
 	}
 }

@@ -17,5 +17,11 @@ public class MenuController : MonoBehaviour {
         {
             SceneManager.LoadScene("WaveTest");
         }
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Debug.Log("Quitting game. Buh-BYE!!");
+            Application.Quit();
+        }
     }
 }
