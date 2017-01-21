@@ -37,8 +37,14 @@ public class ObstaclesController : MonoBehaviour
 	void PossiblySpawnNewObstacles ()
 	{
 		var needForNewObstacle = camera.transform.position.x / camera.pixelWidth - obstaclesSpawned / avgAmountOnScreen;
-		Debug.Log ("need: " + needForNewObstacle + ", pos/w = " + camera.transform.position.x / camera.pixelWidth + ", spawned/avg = " + obstaclesSpawned / avgAmountOnScreen);
-		if (Random.value < needForNewObstacle) {
+		var deviation = Random.value - 0.5F;
+
+//		Debug.Log ("need: " + needForNewObstacle
+//		+ ", deviatedNeed = " + (needForNewObstacle + deviation)
+//		+ ", pos/w = " + camera.transform.position.x / camera.pixelWidth
+//		+ ", spawned/avg = " + obstaclesSpawned / avgAmountOnScreen);
+
+		if (Random.value < needForNewObstacle + deviation) {
 			SpawnNewObstacle ();
 		}
 	}
