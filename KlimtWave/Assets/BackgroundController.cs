@@ -55,6 +55,69 @@ public class BackgroundLayer
 
 }
 
+public class AmbientLayer
+{
+
+	private readonly GameObject[] images;
+	private readonly Camera camera;
+	private readonly float speed;
+
+	private int rearMostIndex;
+	private float spacing;
+	private float randomspace;
+
+	public AmbientLayer (float speed, Camera camera, string objectTag, float spacing, float randomness)
+	{
+		this.speed = speed;
+		this.camera = camera;
+		this.rearMostIndex = 0;
+		this.spacing = spacing;
+
+		this.images = GameObject.FindGameObjectsWithTag (objectTag);
+
+
+		this.randomspace = randomness;
+
+		//initial spacing
+
+		for (int i = 0; i < images.Length; i++) {
+			this.images [i].transform.Translate (new Vector2 (camera.transform.position.x - camera.orthographicSize + i * spacing, 0));
+		}
+
+	}
+		
+	public void update ()
+	{
+
+	
+		//move everything by the speed
+		for (int i = 0; i < images.Length; i++) {
+			images [i].transform.Translate (speed * camera.velocity * Time.fixedDeltaTime);
+		}
+
+
+		if (camera.WorldToScreenPoint(images[this.rearMostIndex].transform.position).x < -spacing) {
+			placeNext ();
+		}
+
+	}
+
+	public void placeNext(){
+
+		var foremostIndex = (rearMostIndex - 1) % images.Length;
+		var rear = images [rearMostIndex];
+		var fore = images [foremostIndex];
+		var advance = spacing * (1 + randomspace * Random.value);
+
+		rear.transform.position.Set (fore.transform.position.x + advance, rear.transform.position.y , 0);
+		//rear.transform.localScale.Set (1, 1, 1);
+
+		this.rearMostIndex++;
+
+	}
+
+}
+
 public class BackgroundController : MonoBehaviour
 {
 
@@ -67,7 +130,7 @@ public class BackgroundController : MonoBehaviour
 	private BackgroundLayer cloudLayer;
 	private BackgroundLayer treeslayer;
 	private BackgroundLayer grasslayer;
-	private BackgroundLayer mountainLayer;
+	private AmbientLayer mountainLayer;
 
 	// Use this for initialization
 	void Start ()
@@ -77,7 +140,8 @@ public class BackgroundController : MonoBehaviour
 		this.cloudLayer = new BackgroundLayer (0.5F, camera, clouds);
 		this.treeslayer = new BackgroundLayer (0.1F, camera, trees);
 		this.grasslayer = new BackgroundLayer (0.1F, camera, land);
-		//this.mountainLayer = new BackgroundLayer (0.05F, camera, mountain);
+
+		this.mountainLayer = new AmbientLayer (0.05F, camera, "mountain", 700f, 0.5f);
 	}
 
 	// Update is called once per frame
@@ -87,6 +151,7 @@ public class BackgroundController : MonoBehaviour
 		cloudLayer.update ();
 		treeslayer.update ();
 		grasslayer.update ();
+		mountainLayer.update ();
 
 		//spawn new images
 
