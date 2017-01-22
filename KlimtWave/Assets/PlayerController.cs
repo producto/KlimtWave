@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private AudioSource[] audioSources;
     private Rigidbody2D rigidBody;
 
+    private Animator catAnimator;
+
     private AudioSource meowAudio;
     private AudioSource meowDistressAudio;
     private AudioSource meowDeadAudio;
@@ -44,6 +46,8 @@ public class PlayerController : MonoBehaviour
 	    scoreAnimation = ScoreText.GetComponent<Animation>();
 
 	    finScreenAnimation = FinScreen.GetComponent<Animation>();
+
+	    catAnimator = GetComponent<Animator>();
 
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02F;
@@ -96,6 +100,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Died");
         GetComponent<CircleCollider2D>().enabled = false;
         meowDeadAudio.Play();
+        catAnimator.Play("Dead");
 
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = 0.02F * Time.timeScale;
