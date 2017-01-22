@@ -32,7 +32,7 @@ public class WaveController : MonoBehaviour
 		startPosition.y -= 1350F;
 		var startRotation = Waves.transform.rotation;
 
-		for (int i = 0; i < Mathf.Ceil (1.5F * camera.pixelWidth / waveColumnWidth); i++) {
+		for (int i = 0; i < Mathf.Ceil (3F * camera.pixelWidth / waveColumnWidth); i++) {
 			var newWave = GameObject.Instantiate (WaveColumnPrefab, startPosition, startRotation);
 
 //			if (i != 0) {
