@@ -12,6 +12,7 @@ public class WaveController : MonoBehaviour
 	private float waveColumnWidth;
 
 	private float mouseVelocity;
+	private float spaceDown;
 
 	public GameObject Cat;
 	private Animator catAnimator;
@@ -78,7 +79,8 @@ public class WaveController : MonoBehaviour
 
 	private void CalculateForceVector (int i)
 	{
-		const float balanceY = -1350F;
+
+		float balanceY = Mathf.Max(100, Mathf.Min(Input.mousePosition.y, 800)) - 1620F;
 		float balancingConstant;
 		float dampingConstant;
 		float transmittanceConstant;
@@ -86,34 +88,39 @@ public class WaveController : MonoBehaviour
 		float previousPos;
 
 		if (i > 0) {
-			balancingConstant = 0;
+			balancingConstant = 0.01F;
 			dampingConstant = 0;
 			transmittanceConstant = 0.5F;
 			controlConstant = 0;
 			previousPos = waveColumns [i - 1].GetComponent<Rigidbody2D> ().position.y;
 		} else {
-			balancingConstant = 0.05F;
-			dampingConstant = -0.1F;
+			balancingConstant = 1F;
+			dampingConstant = -0.05F;
 			transmittanceConstant = 0;
-			controlConstant = 1000F; 
+			controlConstant = 10000F; 
 			previousPos = balanceY;
 		}
 
 		var body = waveColumns [i].GetComponent<Rigidbody2D> ();
+
 		var balancingVelocity = (balanceY - body.position.y) * balancingConstant / Time.fixedDeltaTime;
 		var transmittanceVelocity = (previousPos - body.position.y) * transmittanceConstant / Time.fixedDeltaTime;
 		var dampingVelocity = body.velocity.y * dampingConstant;
 		var naturalVelocity = balancingVelocity + transmittanceVelocity + dampingVelocity;
-		body.AddForce (new Vector2 (0, body.mass * (naturalVelocity + mouseVelocity * controlConstant - body.velocity.y) / Time.fixedDeltaTime));
+
+
+		body.AddForce (new Vector2 (0, body.mass * (naturalVelocity - body.velocity.y) / Time.fixedDeltaTime));
 	}
 
 	private void HandleInput ()
 	{
 //		if (Input.GetKey (KeyCode.Space)) {
-//			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
+//			spaceDown = 1F;
+//		} else {
+//			spaceDown = 0f;
 //		}
-
-		mouseVelocity = Input.GetAxis ("Mouse Y");
+//
+//		mouseVelocity = Input.GetAxis ("Mouse Y");
 
 		if (Input.GetKeyUp (KeyCode.Escape)) {
 			Debug.Log ("Quitting game. Buh-BYE!!");
@@ -131,7 +138,7 @@ public class WaveController : MonoBehaviour
 
 		var diff = (right - mid) + (mid - left); // positive is upslope
 			
-		var slopeForce = -35000;
+		var slopeForce = -55000;
 
 		Cat.GetComponent<Rigidbody2D> ().AddForce (new Vector2((diff * slopeForce), 0));
 
