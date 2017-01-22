@@ -11,7 +11,7 @@ public class WaveController : MonoBehaviour
 	private List<GameObject> waveColumns = new List<GameObject> ();
 	private float waveColumnWidth;
 
-	private float mousePos;
+	private float mouseVelocity;
 
 	public GameObject Cat;
 	private Animator catAnimator;
@@ -21,7 +21,7 @@ public class WaveController : MonoBehaviour
 	void Start ()
 	{
 		waveColumnWidth = WaveColumnPrefab.GetComponent<Renderer> ().bounds.size.x;
-		mousePos = 0F;
+		mouseVelocity = 0F;
 
 		catAnimator = Cat.GetComponent<Animator> ();
 		catRigidbody2D = Cat.GetComponent<Rigidbody2D> ();
@@ -37,6 +37,7 @@ public class WaveController : MonoBehaviour
 //			if (i != 0) {
 //				newWave.GetComponent<SpringJoint2D> ().connectedBody = waveColumns [i - 1].GetComponent<Rigidbody2D> ();
 //			}
+			newWave.GetComponent<SpringJoint2D> ().enabled = false;
 			waveColumns.Add (newWave);
 
 			startPosition.x += waveColumnWidth;
@@ -77,37 +78,42 @@ public class WaveController : MonoBehaviour
 
 	private void CalculateForceVector (int i)
 	{
-		var balancingConstant = 1200F;
-		var dampingConstant = -1900F;
-		var balanceY = -1350F;
-		var transmittanceConstant = 30000F;
-		var controlConstant = 4000000F; 
-		var previousPos = balanceY;
+		const float balanceY = -1350F;
+		float balancingConstant;
+		float dampingConstant;
+		float transmittanceConstant;
+		float controlConstant;
+		float previousPos;
 
 		if (i > 0) {
-			previousPos = waveColumns [i - 1].GetComponent<Rigidbody2D> ().position.y;
+			balancingConstant = 0;
+			dampingConstant = 0;
+			transmittanceConstant = 0.5F;
 			controlConstant = 0;
+			previousPos = waveColumns [i - 1].GetComponent<Rigidbody2D> ().position.y;
 		} else {
+			balancingConstant = 0.05F;
+			dampingConstant = -0.1F;
 			transmittanceConstant = 0;
+			controlConstant = 1000F; 
+			previousPos = balanceY;
 		}
+
 		var body = waveColumns [i].GetComponent<Rigidbody2D> ();
-		body.AddForce (new Vector2 (0, (balanceY - body.position.y) * balancingConstant +
-			
-		(previousPos - body.position.y) * transmittanceConstant +
-		body.velocity.y * dampingConstant +
-		(mousePos) * controlConstant));
+		var balancingVelocity = (balanceY - body.position.y) * balancingConstant / Time.fixedDeltaTime;
+		var transmittanceVelocity = (previousPos - body.position.y) * transmittanceConstant / Time.fixedDeltaTime;
+		var dampingVelocity = body.velocity.y * dampingConstant;
+		var naturalVelocity = balancingVelocity + transmittanceVelocity + dampingVelocity;
+		body.AddForce (new Vector2 (0, body.mass * (naturalVelocity + mouseVelocity * controlConstant - body.velocity.y) / Time.fixedDeltaTime));
 	}
 
 	private void HandleInput ()
 	{
-
 //		if (Input.GetKey (KeyCode.Space)) {
 //			waveColumns [0].GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, 100000F));
 //		}
 
-
-		mousePos = Input.GetAxis ("Mouse Y");
-
+		mouseVelocity = Input.GetAxis ("Mouse Y");
 
 		if (Input.GetKeyUp (KeyCode.Escape)) {
 			Debug.Log ("Quitting game. Buh-BYE!!");
