@@ -66,12 +66,18 @@ public class AmbientLayer
 	private float spacing;
 	private float randomspace;
 
-	public AmbientLayer (float speed, Camera camera, string objectTag, float spacing, float randomness)
+	Vector2 scaleMin; 
+	Vector2 scaleMax;
+
+	public AmbientLayer (float speed, Camera camera, string objectTag, float spacing, float randomness, Vector2 scaleMin, Vector2 scaleMax)
 	{
 		this.speed = speed;
 		this.camera = camera;
 		this.rearMostIndex = 0;
 		this.spacing = spacing;
+
+		this.scaleMin = scaleMin;
+		this.scaleMax = scaleMax;
 
 		this.images = GameObject.FindGameObjectsWithTag (objectTag);
 
@@ -82,6 +88,8 @@ public class AmbientLayer
 
 		for (int i = 0; i < images.Length; i++) {
 			this.images [i].transform.Translate (new Vector2 (camera.transform.position.x - camera.orthographicSize + i * spacing, 0));
+			this.images [i].transform.localScale = new Vector3((Random.value * (scaleMax.x - scaleMin.x) + scaleMin.x),(Random.value * (scaleMax.y - scaleMin.y) + scaleMin.y), 1);
+
 		}
 
 	}
@@ -117,7 +125,8 @@ public class AmbientLayer
 		var advance = spacing * (1 + randomspace * Random.value);
 		Debug.Log ("moving ambient obstacle by:" + advance);
 		rear.transform.Translate (new Vector3((fore.transform.position.x - rear.transform.position.x)+ advance, rear.transform.position.y , 0));
-		//rear.transform.localScale.Set (1, 1, 1);
+
+		rear.transform.localScale = new Vector3((Random.value * (scaleMax.x - scaleMin.x) + scaleMin.x),(Random.value * (scaleMax.y - scaleMin.y) + scaleMin.y), 1);
 
 		this.rearMostIndex = (this.rearMostIndex + 1) % this.images.Length;
 
@@ -143,11 +152,11 @@ public class BackgroundController : MonoBehaviour
 	{
 
 		//lower is "closer"
-		this.cloudLayer = new BackgroundLayer (0.5F, camera, clouds);
-		this.grasslayer = new BackgroundLayer (0.3F, camera, land);
+		this.cloudLayer = new BackgroundLayer (0.7F, camera, clouds);
+		this.grasslayer = new BackgroundLayer (0.4F, camera, land);
 
-		this.treeslayer = new AmbientLayer (0.3F, camera, "Trees", 1000f, 1f);
-		this.mountainLayer = new AmbientLayer (0.4F, camera, "Mountain", 700f, 1f);
+		this.treeslayer = new AmbientLayer (0.4F, camera, "Trees", 1000f, 1f, new Vector2(0.4f ,0.4f), new Vector2(0.6f,0.6f));
+		this.mountainLayer = new AmbientLayer (0.6F, camera, "Mountain", 700f, 1f, new Vector2(1f ,1f), new Vector2(2f,1.5f));
 	}
 
 	// Update is called once per frame
