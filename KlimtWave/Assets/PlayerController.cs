@@ -10,6 +10,7 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour
 {
     public Text ScoreText;
+    public Text FinalScoreText;
     private Animation scoreAnimation;
     public Image FinScreen;
     private Animation finScreenAnimation;
@@ -44,8 +45,9 @@ public class PlayerController : MonoBehaviour
 
         score = 0;
 	    scoreAnimation = ScoreText.GetComponent<Animation>();
+        FinalScoreText.text = "Final Score: " + score;
 
-	    finScreenAnimation = FinScreen.GetComponent<Animation>();
+        finScreenAnimation = FinScreen.GetComponent<Animation>();
 
 	    catAnimator = GetComponent<Animator>();
 
@@ -118,5 +120,6 @@ public class PlayerController : MonoBehaviour
         scoreAnimation.Play();
         score += 1;
         ScoreText.text = score.ToString();
+        FinalScoreText.text = "Final Score: " + score;
     }
 }
