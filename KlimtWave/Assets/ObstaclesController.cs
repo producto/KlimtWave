@@ -54,9 +54,16 @@ public class ObstaclesController : MonoBehaviour
 	void SpawnNewObstacle ()
 	{
 		var newObstacle = GameObject.Instantiate (obstaclePrefab);
-		var randomY = Random.value;
+		var randomY = .1F + Random.value / .6F;  // Random between 0.1 and 0.7
 		newObstacle.transform.position.Set (0, 0, 0);
 		newObstacle.transform.position = camera.ViewportToWorldPoint (new Vector3 (1, randomY, 10));
+		var newBody = newObstacle.GetComponent<Rigidbody2D> ();
+
+		var maxDVelocity = new Vector2 (400F, 700F);
+		var deviation = new Vector2 (-Random.value, Random.value);
+		var dVelocity = Vector2.Scale (maxDVelocity, deviation);
+		newBody.AddForce (newBody.mass * dVelocity / Time.fixedDeltaTime);
+
 		obstacles.Add (newObstacle);
 		ObstaclesSpawned++;
 	}
