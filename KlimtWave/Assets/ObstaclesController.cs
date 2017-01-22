@@ -31,7 +31,8 @@ public class ObstaclesController : MonoBehaviour
 		// If the obstacles is off the screen, remove it from the list
 		// Once the first obstacles in the list is /on/ the screen, the rest will probably be too.
 		while (obstacles.Count > 0 && camera.WorldToViewportPoint (obstacles [0].GetComponent<Renderer> ().bounds.max).x < 0) {
-			obstacles.Remove (obstacles [0]);
+			Destroy (obstacles [0]);
+			obstacles.RemoveAt (0);
 		}
 	}
 
