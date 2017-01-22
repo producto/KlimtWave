@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 {
     public Text ScoreText;
     private Animation scoreAnimation;
+    public Image FinScreen;
+    private Animation finScreenAnimation;
 
     private AudioSource[] audioSources;
     private Rigidbody2D rigidBody;
@@ -41,12 +43,16 @@ public class PlayerController : MonoBehaviour
         score = 0;
 	    scoreAnimation = ScoreText.GetComponent<Animation>();
 
+	    finScreenAnimation = FinScreen.GetComponent<Animation>();
+
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02F;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
+	    if (!isEndSequence) return;
         if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter) || Input.GetMouseButton(0))
         {
             SceneManager.LoadScene("WaveTest");
@@ -96,6 +102,8 @@ public class PlayerController : MonoBehaviour
 
         Camera.main.orthographicSize = 400;
         isEndSequence = true;
+
+        finScreenAnimation.Play();
     }
 
     public void IncreaseScore()
